@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmenten::head(title='ToysForBoys order')"></head>
+
+<body>
+<h1 th:text="|Order ${id}|"></h1>
+
+<p></p>
+Ordered:
+<p th:text="${orderId.get().orderDate}"></p>
+
+Required:
+<p th:text="${orderId.get().requiredDate}"></p>
+
+Customer:
+<p th:text="${orderId.get().customer.naam}"></p>
+<p th:text="${orderId.get().customer.streetAndNumber}"></p>
+<p th:text="${orderId.get().customer.staat}"></p>
+<p th:text="${orderId.get().customer.landId.name}"></p>
+
+Comments:
+<p th:text="${orderId.get().comments}"></p>
+
+Details:
+<table>
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Price Each</th>
+        <th>Quantity</th>
+        <th>Value</th>
+        <th>Deliverable</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="orderdetail:${orderdetails}" th:object="${orderdetails}">
+    <td th:text="${orderdetail.product.name}"></td>
+        <td th:text="${orderdetail.priceEach}"></td>
+        <td th:text="${orderdetail.quantityOrdered}"></td>
+        <td th:text="${orderdetail.totalValue}"></td>
+        <td><span th:if="${orderdetail.quantityOrdered>= orderdetail.product.getQuantityInStock()}"> &cross; </span>
+            <span th:unless="${orderdetail.quantityOrdered>= orderdetail.product.getQuantityInStock()}">&check; </span>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>

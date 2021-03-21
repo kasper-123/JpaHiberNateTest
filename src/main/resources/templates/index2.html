@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmenten::head(title='ToysForBoys')"></head>
+<body>
+
+
+
+
+
+
+<form method="post" th:object="${shipform}" th:action="@{/shipping}">
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Ordered</th>
+        <th>Required</th>
+        <th>Customer</th>
+        <th>Comments</th>
+        <th>Status</th>
+        <th>Ship</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="${shipform}" >
+
+        <td><a th:href="@{/orders/{id}(id=${order.key.id})}" th:text="${order.key.id}"></a></td>
+        <td th:text="${order.key.orderDate}"></td>
+        <td th:text="${order.key.requiredDate}"></td>
+        <td th:text="${order.key.customer.naam}"></td>
+        <td th:text="${order.key.comments}"></td>
+        <td><img th:src="|@{'/images/' + ${order.key.status} +'.png'}|"><span th:text="${order.key.status}"></span> </td>
+        <td>
+
+
+            <input type="text" th:field="*{shipping['order']}" />
+
+
+            <div th:each="entry,  order:${shipform}"  th:object="${shipform}">
+                <input th:field="*{shipping['__${entry.key}__']}">
+                <input hidden  th:field="${order.key}" >
+
+            <input type="checkbox" th:field="${order.value}"  value="unchecked">
+           </div>
+
+       </td>
+
+
+
+    </tr>
+    </tbody>
+</table>
+
+
+<button>set as shipped</button>
+</form>
+</body>
+</html>
